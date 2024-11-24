@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <title>Login - Student Budget Saver</title>
+    <style>
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Login to Your Account</h1>
+            <p>Manage your finances smartly and effortlessly!</p>
+            <!-- Error message div -->
+            <div id="error-message" class="error-message">
+                {% if error_message %}
+                    {{ error_message }}
+                {% endif %}
+            </div>
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <p class="login-link">Don't have an account? <a href="{% url 'create_account' %}">Create one here</a></p>
+            </form>
+            <button class="google-login" onclick="loginWithGoogle()">Login with Google</button>
+            <button class="microsoft-login" onclick="loginWithMicrosoft()">Login with Microsoft</button>
+        </div>
+    </div>
+
+    <script>
+        function loginWithGoogle() {
+            const googleClientId = 'YOUR_GOOGLE_CLIENT_ID';
+            const redirectUri = 'YOUR_REDIRECT_URI';
+            const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${redirectUri}&response_type=token&scope=profile email`;
+            window.location.href = googleAuthUrl;
+        }
+
+        function loginWithMicrosoft() {
+            const microsoftClientId = 'YOUR_MICROSOFT_CLIENT_ID';
+            const redirectUri = 'YOUR_REDIRECT_URI';
+            const microsoftAuthUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=${microsoftClientId}&redirect_uri=${redirectUri}&response_type=token&scope=openid profile email`;
+            window.location.href = microsoftAuthUrl;
+        }
+    </script>
+</body>
+</html>
