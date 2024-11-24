@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <title>Create Account - Student Budget Saver</title>
+    <style>
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Create Your Account</h1>
+            <p>Start managing your finances smartly today!</p>
+            <!-- Error message div -->
+            <div id="error-message" class="error-message">
+                {% if error_message %}
+                    {{ error_message }}
+                {% endif %}
+            </div>
+            <form action="{% url 'create_account' %}" method="post">
+                {% csrf_token %}
+                <div class="input-group">
+                    <label for="first_name">First Name</label>
+                    <input type="text" id="first_name" name="first_name" placeholder="Enter your first name" required>
+                </div>
+                <div class="input-group">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" id="last_name" name="last_name" placeholder="Enter your last name" required>
+                </div>
+                <div class="input-group">
+                    <label for="new_username">Username</label>
+                    <input type="text" id="new_username" name="new_username" placeholder="Enter your username" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="input-group">
+                    <label for="new_password">Password</label>
+                    <input type="password" id="new_password" name="new_password" placeholder="Enter your password" required>
+                </div>
+                <div class="input-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="btn">Create Account</button>
+                <p class="login-link">Already have an account? <a href="{% url 'login' %}">Log in here</a></p>
+            </form>
+            <button class="google-login" onclick="loginWithGoogle()">Login with Google</button>
+            <button class="microsoft-login" onclick="loginWithMicrosoft()">Login with Microsoft</button>
+        </div>
+    </div>
+
+    <script>
+        function loginWithGoogle() {
+            const googleClientId = 'YOUR_GOOGLE_CLIENT_ID';
+            const redirectUri = 'YOUR_REDIRECT_URI';
+            const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${redirectUri}&response_type=token&scope=profile email`;
+            window.location.href = googleAuthUrl;
+        }
+
+        function loginWithMicrosoft() {
+            const microsoftClientId = 'YOUR_MICROSOFT_CLIENT_ID';
+            const redirectUri = 'YOUR_REDIRECT_URI';
+            const microsoftAuthUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=${microsoftClientId}&redirect_uri=${redirectUri}&response_type=token&scope=openid profile email`;
+            window.location.href = microsoftAuthUrl;
+        }
+    </script>
+</body>
+</html>
